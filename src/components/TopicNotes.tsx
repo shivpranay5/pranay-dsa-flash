@@ -171,7 +171,7 @@ const TopicNotes: React.FC<TopicNotesProps> = ({ topicId, topicName }) => {
                       <div className="relative">
                         <img
                           src={block.content}
-                          alt="Note image"
+                          alt="Note content"
                           className="w-full max-w-md h-auto rounded-lg"
                         />
                         <button
@@ -254,7 +254,7 @@ const TopicNotes: React.FC<TopicNotesProps> = ({ topicId, topicName }) => {
                         <div className="flex justify-center">
                           <img
                             src={block.content}
-                            alt="Note image"
+                            alt="Note content"
                             className="max-w-full h-auto rounded-lg shadow-md"
                           />
                         </div>
@@ -322,7 +322,7 @@ const TopicNotes: React.FC<TopicNotesProps> = ({ topicId, topicName }) => {
                         <div className="relative">
                           <img
                             src={block.content}
-                            alt="Note image"
+                            alt="Note content"
                             className="w-full max-w-md h-auto rounded-lg"
                           />
                           <button
@@ -405,7 +405,7 @@ const TopicNotes: React.FC<TopicNotesProps> = ({ topicId, topicName }) => {
                           <div className="flex justify-center">
                             <img
                               src={block.content}
-                              alt="Note image"
+                              alt="Note content"
                               className="max-w-full h-auto rounded-lg shadow-md"
                             />
                           </div>

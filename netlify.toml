@@ -3,7 +3,7 @@
   command = "npm run build"
 
 [build.environment]
-  REACT_APP_API_URL = "https://your-backend-url.onrender.com"
+  REACT_APP_API_URL = "https://dsa-flash-backend.onrender.com"
 
 [[redirects]]
   from = "/*"
