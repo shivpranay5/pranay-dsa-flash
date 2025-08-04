@@ -1,0 +1,72 @@
+[
+  {
+    "id": "two-sum",
+    "topicId": "arrays",
+    "title": "Two Sum",
+    "difficulty": "Easy",
+    "leetcodeUrl": "https://leetcode.com/problems/two-sum/",
+    "geeksforgeeksUrl": "https://www.geeksforgeeks.org/given-an-array-a-and-a-number-x-check-for-pair-in-a-with-sum-as-x/",
+    "solution": "Use HashMap to store complements. Time: O(n), Space: O(n)",
+    "notes": "Classic problem to understand HashMap usage. Can be solved with brute force O(n²) but HashMap gives optimal solution.",
+    "tags": ["hashmap", "array", "two-pointers"],
+    "createdAt": "2024-01-15T10:00:00Z",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)"
+  },
+  {
+    "id": "reverse-string",
+    "topicId": "strings",
+    "title": "Reverse String",
+    "difficulty": "Easy",
+    "leetcodeUrl": "https://leetcode.com/problems/reverse-string/",
+    "geeksforgeeksUrl": "https://www.geeksforgeeks.org/write-a-program-to-reverse-an-array-or-string/",
+    "solution": "Use two pointers from start and end, swap characters until pointers meet.",
+    "notes": "In-place solution is most efficient. Can also use built-in reverse() in some languages.",
+    "tags": ["two-pointers", "string"],
+    "createdAt": "2024-01-16T10:00:00Z",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)"
+  },
+  {
+    "id": "valid-parentheses",
+    "topicId": "strings",
+    "title": "Valid Parentheses",
+    "difficulty": "Easy",
+    "leetcodeUrl": "https://leetcode.com/problems/valid-parentheses/",
+    "geeksforgeeksUrl": "https://www.geeksforgeeks.org/check-for-balanced-parentheses-in-an-expression/",
+    "solution": "Use stack to keep track of opening brackets. Pop when matching closing bracket found.",
+    "notes": "Stack is perfect for this problem. Remember to check if stack is empty at the end.",
+    "tags": ["stack", "string"],
+    "createdAt": "2024-01-17T10:00:00Z",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)"
+  },
+  {
+    "id": "binary-tree-inorder",
+    "topicId": "trees",
+    "title": "Binary Tree Inorder Traversal",
+    "difficulty": "Easy",
+    "leetcodeUrl": "https://leetcode.com/problems/binary-tree-inorder-traversal/",
+    "geeksforgeeksUrl": "https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/",
+    "solution": "Recursive: left -> root -> right. Iterative: use stack to simulate recursion.",
+    "notes": "Inorder traversal gives sorted order for BST. Important for understanding tree traversal patterns.",
+    "tags": ["tree", "recursion", "stack"],
+    "createdAt": "2024-01-18T10:00:00Z",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)"
+  },
+  {
+    "id": "climbing-stairs",
+    "topicId": "dynamic-programming",
+    "title": "Climbing Stairs",
+    "difficulty": "Easy",
+    "leetcodeUrl": "https://leetcode.com/problems/climbing-stairs/",
+    "geeksforgeeksUrl": "https://www.geeksforgeeks.org/count-ways-reach-nth-stair/",
+    "solution": "DP[i] = DP[i-1] + DP[i-2]. Can be optimized to O(1) space using two variables.",
+    "notes": "This is essentially Fibonacci sequence. Great introduction to dynamic programming.",
+    "tags": ["dynamic-programming", "fibonacci"],
+    "createdAt": "2024-01-19T10:00:00Z",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)"
+  }
+]

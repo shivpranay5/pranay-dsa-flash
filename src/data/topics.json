@@ -1,0 +1,74 @@
+[
+  {
+    "id": "arrays",
+    "name": "Arrays",
+    "description": "Array manipulation, searching, sorting, and optimization problems",
+    "category": "Data Structures",
+    "order": 1,
+    "icon": "Square3Stack3DIcon"
+  },
+  {
+    "id": "strings",
+    "name": "Strings",
+    "description": "String manipulation, pattern matching, and text processing",
+    "category": "Data Structures",
+    "order": 2,
+    "icon": "DocumentTextIcon"
+  },
+  {
+    "id": "linked-lists",
+    "name": "Linked Lists",
+    "description": "Singly and doubly linked list operations and algorithms",
+    "category": "Data Structures",
+    "order": 3,
+    "icon": "LinkIcon"
+  },
+  {
+    "id": "trees",
+    "name": "Trees",
+    "description": "Binary trees, BST, AVL trees, and tree traversal algorithms",
+    "category": "Data Structures",
+    "order": 4,
+    "icon": "ChartBarIcon"
+  },
+  {
+    "id": "graphs",
+    "name": "Graphs",
+    "description": "Graph algorithms, BFS, DFS, shortest path, and connectivity",
+    "category": "Data Structures",
+    "order": 5,
+    "icon": "ShareIcon"
+  },
+  {
+    "id": "dynamic-programming",
+    "name": "Dynamic Programming",
+    "description": "Memoization, tabulation, and optimization problems",
+    "category": "Algorithms",
+    "order": 6,
+    "icon": "CpuChipIcon"
+  },
+  {
+    "id": "greedy",
+    "name": "Greedy Algorithms",
+    "description": "Greedy approach problems and optimization",
+    "category": "Algorithms",
+    "order": 7,
+    "icon": "SparklesIcon"
+  },
+  {
+    "id": "two-pointers",
+    "name": "Two Pointers",
+    "description": "Two pointer technique and sliding window problems",
+    "category": "Algorithms",
+    "order": 8,
+    "icon": "CursorArrowRaysIcon"
+  },
+  {
+    "id": "lc-contest",
+    "name": "L.C Contest Problems",
+    "description": "LeetCode contest problems and challenges",
+    "category": "Contests",
+    "order": 9,
+    "icon": "TrophyIcon"
+  }
+]
