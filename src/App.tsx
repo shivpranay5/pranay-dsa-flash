@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from './hooks/useStore';
 import Layout from './components/Layout';
 import TopicList from './components/TopicList';
@@ -6,9 +6,14 @@ import ProblemList from './components/ProblemList';
 import AddTopicModal from './components/AddTopicModal';
 import AddProblemModal from './components/AddProblemModal';
 import TopicNotes from './components/TopicNotes';
+import LoginPage from './components/LoginPage';
 
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem('isLoggedIn') === 'true';
+  });
+
   const { 
     loadData, 
     selectedTopic, 
@@ -19,12 +24,28 @@ function App() {
   } = useStore();
 
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    if (isLoggedIn) {
+      loadData();
+    }
+  }, [loadData, isLoggedIn]);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    setIsLoggedIn(false);
+  };
+
+  // Show login page if not logged in
+  if (!isLoggedIn) {
+    return <LoginPage onLogin={handleLogin} />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Layout>
+      <Layout onLogout={handleLogout}>
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8 flex items-start justify-between">
             <div className="flex-1">

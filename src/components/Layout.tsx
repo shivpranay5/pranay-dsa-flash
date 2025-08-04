@@ -7,9 +7,10 @@ import { useStore } from '../hooks/useStore';
 
 interface LayoutProps {
   children: React.ReactNode;
+  onLogout?: () => void;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children, onLogout }) => {
   const { 
     searchQuery, 
     setSearchQuery, 
@@ -71,6 +72,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               >
                 Reset
               </button>
+              {onLogout && (
+                <button
+                  onClick={() => {
+                    if (window.confirm('Are you sure you want to logout?')) {
+                      onLogout();
+                    }
+                  }}
+                  className="px-3 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  title="Logout"
+                >
+                  Logout
+                </button>
+              )}
             </div>
           </div>
         </div>
