@@ -87,16 +87,20 @@ export const storage = {
   },
 
   // Helper functions
-  addTopic: async (topic: Topic): Promise<void> => {
+  addTopic: async (topic: Topic): Promise<any> => {
     try {
-      await topicsAPI.create(topic);
+      // Remove the id field before sending to API (MongoDB will generate _id)
+      const { id, ...topicWithoutId } = topic;
+      const createdTopic = await topicsAPI.create(topicWithoutId);
       console.log('Topic added successfully to MongoDB');
+      return createdTopic;
     } catch (error) {
       console.error('Error adding topic to API:', error);
       // Fallback to localStorage
       const topics = getLocalStorageData(TOPICS_KEY, []);
       topics.push(topic);
       saveToLocalStorage(TOPICS_KEY, topics);
+      return topic;
     }
   },
 
@@ -113,16 +117,20 @@ export const storage = {
     }
   },
 
-  addProblem: async (problem: Problem): Promise<void> => {
+  addProblem: async (problem: Problem): Promise<any> => {
     try {
-      await problemsAPI.create(problem);
+      // Remove the id field before sending to API (MongoDB will generate _id)
+      const { id, ...problemWithoutId } = problem;
+      const createdProblem = await problemsAPI.create(problemWithoutId);
       console.log('Problem added successfully to MongoDB');
+      return createdProblem;
     } catch (error) {
       console.error('Error adding problem to API:', error);
       // Fallback to localStorage
       const problems = getLocalStorageData(PROBLEMS_KEY, []);
       problems.push(problem);
       saveToLocalStorage(PROBLEMS_KEY, problems);
+      return problem;
     }
   },
 

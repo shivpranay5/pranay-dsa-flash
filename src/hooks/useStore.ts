@@ -89,8 +89,10 @@ export const useStore = create<DSAStore>((set, get) => ({
       id: `topic-${Date.now()}`,
     };
     try {
-      await storage.addTopic(newTopic);
-      set((state) => ({ topics: [...state.topics, newTopic] }));
+      const createdTopic = await storage.addTopic(newTopic);
+      // Use the MongoDB response if available, otherwise use the local topic
+      const topicToAdd = createdTopic._id ? { ...createdTopic, id: createdTopic._id } : newTopic;
+      set((state) => ({ topics: [...state.topics, topicToAdd] }));
     } catch (error) {
       console.error('Error adding topic:', error);
     }
@@ -128,8 +130,10 @@ export const useStore = create<DSAStore>((set, get) => ({
       createdAt: new Date(),
     };
     try {
-      await storage.addProblem(newProblem);
-      set((state) => ({ problems: [...state.problems, newProblem] }));
+      const createdProblem = await storage.addProblem(newProblem);
+      // Use the MongoDB response if available, otherwise use the local problem
+      const problemToAdd = createdProblem._id ? { ...createdProblem, id: createdProblem._id } : newProblem;
+      set((state) => ({ problems: [...state.problems, problemToAdd] }));
     } catch (error) {
       console.error('Error adding problem:', error);
     }
