@@ -9,7 +9,8 @@ import {
   ShareIcon,
   CpuChipIcon,
   SparklesIcon,
-  CursorArrowRaysIcon
+  CursorArrowRaysIcon,
+  TrophyIcon
 } from '@heroicons/react/24/outline';
 import { useStore } from '../hooks/useStore';
 
@@ -22,6 +23,7 @@ const iconMap: { [key: string]: React.ComponentType<any> } = {
   CpuChipIcon,
   SparklesIcon,
   CursorArrowRaysIcon,
+  TrophyIcon,
 };
 
 const TopicList: React.FC = () => {
