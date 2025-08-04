@@ -34,9 +34,14 @@ export const storage = {
   getTopics: async (): Promise<Topic[]> => {
     try {
       const topics = await topicsAPI.getAll();
+      // Convert MongoDB _id to frontend id
+      const topicsWithId = topics.map((topic: any) => ({
+        ...topic,
+        id: topic._id || topic.id
+      }));
       // Save to localStorage as backup
-      saveToLocalStorage(TOPICS_KEY, topics);
-      return topics;
+      saveToLocalStorage(TOPICS_KEY, topicsWithId);
+      return topicsWithId;
     } catch (error) {
       console.error('Error loading topics from API, using localStorage:', error);
       // Fallback to localStorage
@@ -58,14 +63,15 @@ export const storage = {
   getProblems: async (): Promise<Problem[]> => {
     try {
       const problems = await problemsAPI.getAll();
-      // Convert dates
-      const problemsWithDates = problems.map((p: any) => ({
+      // Convert MongoDB _id to frontend id and dates
+      const problemsWithIdAndDates = problems.map((p: any) => ({
         ...p,
+        id: p._id || p.id,
         createdAt: new Date(p.createdAt)
       }));
       // Save to localStorage as backup
-      saveToLocalStorage(PROBLEMS_KEY, problemsWithDates);
-      return problemsWithDates;
+      saveToLocalStorage(PROBLEMS_KEY, problemsWithIdAndDates);
+      return problemsWithIdAndDates;
     } catch (error) {
       console.error('Error loading problems from API, using localStorage:', error);
       // Fallback to localStorage
