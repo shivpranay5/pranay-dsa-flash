@@ -1,9 +1,17 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://dsa-flash-backend.onrender.com';
 
+// Debug logging
+console.log('API_BASE_URL:', API_BASE_URL);
+console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+
 // Helper function to handle API responses
 const handleResponse = async (response: Response) => {
+  console.log('API Response Status:', response.status);
+  console.log('API Response URL:', response.url);
+  
   if (!response.ok) {
     const error = await response.text();
+    console.error('API Error Response:', error);
     throw new Error(`API Error: ${response.status} - ${error}`);
   }
   return response.json();
@@ -17,6 +25,9 @@ export const topicsAPI = {
   },
 
   create: async (topic: any) => {
+    console.log('Creating topic with data:', topic);
+    console.log('API URL:', `${API_BASE_URL}/api/topics`);
+    
     const response = await fetch(`${API_BASE_URL}/api/topics`, {
       method: 'POST',
       headers: {
