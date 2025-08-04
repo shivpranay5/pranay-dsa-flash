@@ -25,7 +25,9 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      loadData();
+      loadData().catch(error => {
+        console.error('Error loading data:', error);
+      });
     }
   }, [loadData, isLoggedIn]);
 

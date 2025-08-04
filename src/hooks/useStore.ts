@@ -13,21 +13,21 @@ interface DSAStore {
   showAddProblemModal: boolean;
 
   // Actions
-  loadData: () => void;
-  resetData: () => void;
+  loadData: () => Promise<void>;
+  resetData: () => Promise<void>;
   setSelectedTopic: (topic: Topic | null) => void;
   setSelectedProblem: (problem: Problem | null) => void;
   setSearchQuery: (query: string) => void;
   
   // Topic actions
-  addTopic: (topic: Omit<Topic, 'id'>) => void;
-  deleteTopic: (topicId: string) => void;
-  updateTopic: (topicId: string, updates: Partial<Topic>) => void;
+  addTopic: (topic: Omit<Topic, 'id'>) => Promise<void>;
+  deleteTopic: (topicId: string) => Promise<void>;
+  updateTopic: (topicId: string, updates: Partial<Topic>) => Promise<void>;
   
   // Problem actions
-  addProblem: (problem: Omit<Problem, 'id' | 'createdAt'>) => void;
-  deleteProblem: (problemId: string) => void;
-  updateProblem: (problemId: string, updates: Partial<Problem>) => void;
+  addProblem: (problem: Omit<Problem, 'id' | 'createdAt'>) => Promise<void>;
+  deleteProblem: (problemId: string) => Promise<void>;
+  updateProblem: (problemId: string, updates: Partial<Problem>) => Promise<void>;
   
   // Modal actions
   setShowAddTopicModal: (show: boolean) => void;
@@ -39,8 +39,8 @@ interface DSAStore {
   getFilteredProblems: () => Problem[];
   
   // Topic Notes
-  getTopicNotes: (topicId: string) => string;
-  saveTopicNotes: (topicId: string, notes: string) => void;
+  getTopicNotes: (topicId: string) => Promise<string>;
+  saveTopicNotes: (topicId: string, notes: string) => Promise<void>;
 }
 
 export const useStore = create<DSAStore>((set, get) => ({
@@ -54,18 +54,28 @@ export const useStore = create<DSAStore>((set, get) => ({
   showAddProblemModal: false,
 
   // Load data from storage
-  loadData: () => {
-    const topics = storage.getTopics();
-    const problems = storage.getProblems();
-    set({ topics, problems });
+  loadData: async () => {
+    try {
+      const topics = await storage.getTopics();
+      const problems = await storage.getProblems();
+      set({ topics, problems });
+    } catch (error) {
+      console.error('Error loading data:', error);
+      // Set empty arrays if loading fails
+      set({ topics: [], problems: [] });
+    }
   },
 
   // Reset data to defaults
-  resetData: () => {
-    storage.clearAll();
-    const topics = storage.getTopics();
-    const problems = storage.getProblems();
-    set({ topics, problems });
+  resetData: async () => {
+    try {
+      await storage.clearAll();
+      const topics = await storage.getTopics();
+      const problems = await storage.getProblems();
+      set({ topics, problems });
+    } catch (error) {
+      console.error('Error resetting data:', error);
+    }
   },
 
   setSelectedTopic: (topic) => set({ selectedTopic: topic }),
@@ -73,56 +83,80 @@ export const useStore = create<DSAStore>((set, get) => ({
   setSearchQuery: (query) => set({ searchQuery: query }),
 
   // Topic actions
-  addTopic: (topicData) => {
+  addTopic: async (topicData) => {
     const newTopic: Topic = {
       ...topicData,
       id: `topic-${Date.now()}`,
     };
-    storage.addTopic(newTopic);
-    set((state) => ({ topics: [...state.topics, newTopic] }));
+    try {
+      await storage.addTopic(newTopic);
+      set((state) => ({ topics: [...state.topics, newTopic] }));
+    } catch (error) {
+      console.error('Error adding topic:', error);
+    }
   },
 
-  deleteTopic: (topicId) => {
-    storage.deleteTopic(topicId);
-    set((state) => ({
-      topics: state.topics.filter(t => t.id !== topicId),
-      problems: state.problems.filter(p => p.topicId !== topicId)
-    }));
+  deleteTopic: async (topicId) => {
+    try {
+      await storage.deleteTopic(topicId);
+      set((state) => ({
+        topics: state.topics.filter(t => t.id !== topicId),
+        problems: state.problems.filter(p => p.topicId !== topicId)
+      }));
+    } catch (error) {
+      console.error('Error deleting topic:', error);
+    }
   },
 
-  updateTopic: (topicId, updates) => {
-    const topics = get().topics.map(t => 
-      t.id === topicId ? { ...t, ...updates } : t
-    );
-    storage.saveTopics(topics);
-    set({ topics });
+  updateTopic: async (topicId, updates) => {
+    try {
+      const topics = get().topics.map(t => 
+        t.id === topicId ? { ...t, ...updates } : t
+      );
+      await storage.saveTopics(topics);
+      set({ topics });
+    } catch (error) {
+      console.error('Error updating topic:', error);
+    }
   },
 
   // Problem actions
-  addProblem: (problemData) => {
+  addProblem: async (problemData) => {
     const newProblem: Problem = {
       ...problemData,
       id: `problem-${Date.now()}`,
       createdAt: new Date(),
     };
-    storage.addProblem(newProblem);
-    set((state) => ({ problems: [...state.problems, newProblem] }));
+    try {
+      await storage.addProblem(newProblem);
+      set((state) => ({ problems: [...state.problems, newProblem] }));
+    } catch (error) {
+      console.error('Error adding problem:', error);
+    }
   },
 
-  deleteProblem: (problemId) => {
-    storage.deleteProblem(problemId);
-    set((state) => ({
-      problems: state.problems.filter(p => p.id !== problemId)
-    }));
+  deleteProblem: async (problemId) => {
+    try {
+      await storage.deleteProblem(problemId);
+      set((state) => ({
+        problems: state.problems.filter(p => p.id !== problemId)
+      }));
+    } catch (error) {
+      console.error('Error deleting problem:', error);
+    }
   },
 
-  updateProblem: (problemId, updates) => {
-    storage.updateProblem(problemId, updates);
-    set((state) => ({
-      problems: state.problems.map(p => 
-        p.id === problemId ? { ...p, ...updates } : p
-      )
-    }));
+  updateProblem: async (problemId, updates) => {
+    try {
+      await storage.updateProblem(problemId, updates);
+      set((state) => ({
+        problems: state.problems.map(p => 
+          p.id === problemId ? { ...p, ...updates } : p
+        )
+      }));
+    } catch (error) {
+      console.error('Error updating problem:', error);
+    }
   },
 
   // Modal actions
@@ -157,11 +191,20 @@ export const useStore = create<DSAStore>((set, get) => ({
   },
 
   // Topic Notes
-  getTopicNotes: (topicId) => {
-    return storage.getTopicNotes(topicId);
+  getTopicNotes: async (topicId) => {
+    try {
+      return await storage.getTopicNotes(topicId);
+    } catch (error) {
+      console.error('Error getting topic notes:', error);
+      return '';
+    }
   },
 
-  saveTopicNotes: (topicId, notes) => {
-    storage.saveTopicNotes(topicId, notes);
+  saveTopicNotes: async (topicId, notes) => {
+    try {
+      await storage.saveTopicNotes(topicId, notes);
+    } catch (error) {
+      console.error('Error saving topic notes:', error);
+    }
   }
 }));

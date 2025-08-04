@@ -23,46 +23,64 @@ const TopicNotes: React.FC<TopicNotesProps> = ({ topicId, topicName }) => {
 
   // Initialize with existing notes
   React.useEffect(() => {
-    const existingNotes = getTopicNotes(topicId);
-    if (existingNotes) {
+    const loadNotes = async () => {
       try {
-        const parsed = JSON.parse(existingNotes);
-        if (Array.isArray(parsed)) {
-          setNoteContent(parsed);
+        const existingNotes = await getTopicNotes(topicId);
+        if (existingNotes) {
+          try {
+            const parsed = JSON.parse(existingNotes);
+            if (Array.isArray(parsed)) {
+              setNoteContent(parsed);
+            } else {
+              // Convert old format to new format
+              setNoteContent([{ type: 'text', content: existingNotes, id: Date.now().toString() }]);
+            }
+          } catch {
+            setNoteContent([{ type: 'text', content: existingNotes, id: Date.now().toString() }]);
+          }
         } else {
-          // Convert old format to new format
-          setNoteContent([{ type: 'text', content: existingNotes, id: Date.now().toString() }]);
+          setNoteContent([{ type: 'text', content: '', id: Date.now().toString() }]);
         }
-      } catch {
-        setNoteContent([{ type: 'text', content: existingNotes, id: Date.now().toString() }]);
+      } catch (error) {
+        console.error('Error loading notes:', error);
+        setNoteContent([{ type: 'text', content: '', id: Date.now().toString() }]);
       }
-    } else {
-      setNoteContent([{ type: 'text', content: '', id: Date.now().toString() }]);
-    }
+    };
+    
+    loadNotes();
   }, [topicId, getTopicNotes]);
 
-  const handleSave = () => {
-    saveTopicNotes(topicId, JSON.stringify(noteContent));
-    setIsEditing(false);
+  const handleSave = async () => {
+    try {
+      await saveTopicNotes(topicId, JSON.stringify(noteContent));
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error saving notes:', error);
+    }
   };
 
-  const handleCancel = () => {
-    const existingNotes = getTopicNotes(topicId);
-    if (existingNotes) {
-      try {
-        const parsed = JSON.parse(existingNotes);
-        if (Array.isArray(parsed)) {
-          setNoteContent(parsed);
-        } else {
+  const handleCancel = async () => {
+    try {
+      const existingNotes = await getTopicNotes(topicId);
+      if (existingNotes) {
+        try {
+          const parsed = JSON.parse(existingNotes);
+          if (Array.isArray(parsed)) {
+            setNoteContent(parsed);
+          } else {
+            setNoteContent([{ type: 'text', content: existingNotes, id: Date.now().toString() }]);
+          }
+        } catch {
           setNoteContent([{ type: 'text', content: existingNotes, id: Date.now().toString() }]);
         }
-      } catch {
-        setNoteContent([{ type: 'text', content: existingNotes, id: Date.now().toString() }]);
+      } else {
+        setNoteContent([{ type: 'text', content: '', id: Date.now().toString() }]);
       }
-    } else {
-      setNoteContent([{ type: 'text', content: '', id: Date.now().toString() }]);
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error loading notes for cancel:', error);
+      setIsEditing(false);
     }
-    setIsEditing(false);
   };
 
   const handleFullScreen = () => {
