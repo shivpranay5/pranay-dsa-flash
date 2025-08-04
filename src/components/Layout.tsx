@@ -15,8 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children, onLogout }) => {
     searchQuery, 
     setSearchQuery, 
     setShowAddTopicModal, 
-    setShowAddProblemModal,
-    resetData
+    setShowAddProblemModal
   } = useStore();
 
   return (
@@ -60,17 +59,6 @@ const Layout: React.FC<LayoutProps> = ({ children, onLogout }) => {
               >
                 <PlusIcon className="h-4 w-4" />
                 <span>Problem</span>
-              </button>
-              <button
-                onClick={() => {
-                  if (window.confirm('This will reset all data to defaults. Are you sure?')) {
-                    resetData();
-                  }
-                }}
-                className="px-3 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
-                title="Reset to default topics"
-              >
-                Reset
               </button>
               {onLogout && (
                 <button
