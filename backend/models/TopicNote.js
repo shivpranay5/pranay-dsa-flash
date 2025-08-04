@@ -6,13 +6,10 @@ const topicNoteSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  content: {
+  notes: {
     type: String,
     default: ''
-  },
-  images: [{
-    type: String
-  }]
+  }
 }, {
   timestamps: true
 });

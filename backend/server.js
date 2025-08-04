@@ -44,6 +44,11 @@ const TopicNote = require('./models/TopicNote');
 
 // Routes
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', message: 'Server is running' });
+});
+
 // Topics
 app.get('/api/topics', async (req, res) => {
   try {
@@ -132,24 +137,24 @@ app.delete('/api/problems/:id', async (req, res) => {
 });
 
 // Topic Notes
-app.get('/api/notes/:topicId', async (req, res) => {
+app.get('/api/topic-notes/:topicId', async (req, res) => {
   try {
     const note = await TopicNote.findOne({ topicId: req.params.topicId });
-    res.json(note || { topicId: req.params.topicId, content: '', images: [] });
+    res.json({ notes: note ? note.notes : '' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-app.post('/api/notes', async (req, res) => {
+app.post('/api/topic-notes/:topicId', async (req, res) => {
   try {
-    const { topicId, content, images } = req.body;
+    const { notes } = req.body;
     const note = await TopicNote.findOneAndUpdate(
-      { topicId },
-      { topicId, content, images },
+      { topicId: req.params.topicId },
+      { topicId: req.params.topicId, notes },
       { upsert: true, new: true }
     );
-    res.json(note);
+    res.json({ notes: note.notes });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
