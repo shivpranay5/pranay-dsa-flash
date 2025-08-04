@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { ChevronDownIcon, ChevronRightIcon, PencilIcon, ArrowsPointingOutIcon, XMarkIcon, PhotoIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, ChevronRightIcon, PencilIcon, ArrowTopRightOnSquareIcon, XMarkIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import { useStore } from '../hooks/useStore';
 
 interface NoteContent {
@@ -136,7 +136,7 @@ const TopicNotes: React.FC<TopicNotesProps> = ({ topicId, topicName }) => {
                 className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100"
                 title="Expand to full screen"
               >
-                <ArrowsPointingOutIcon className="h-4 w-4" />
+                                        <ArrowTopRightOnSquareIcon className="h-4 w-4" />
               </button>
               <button
                 onClick={(e) => {
