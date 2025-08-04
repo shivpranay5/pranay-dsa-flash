@@ -14,15 +14,22 @@ app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/dsa-flash', {
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/dsa-flash';
+console.log('Attempting to connect to MongoDB...');
+console.log('MongoDB URI:', mongoUri ? 'Set (hidden for security)' : 'Not set');
+
+mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('error', (error) => {
+  console.error('MongoDB connection error:', error);
+  process.exit(1);
+});
 db.once('open', () => {
-  console.log('Connected to MongoDB');
+  console.log('✅ Connected to MongoDB successfully');
 });
 
 // Multer configuration for file uploads
@@ -174,5 +181,9 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📡 Health check available at: http://localhost:${PORT}/api/health`);
+}).on('error', (error) => {
+  console.error('❌ Server failed to start:', error);
+  process.exit(1);
 }); 
